@@ -717,7 +717,7 @@ jobs:
       - name: "Install Build Tools"
         run: |
           sudo apt-get update
-          sudo apt-get install -y squashfs-tools xorriso p7zip-full wget curl git xz-utils
+          sudo apt-get install -y squashfs-tools xorriso p7zip-full wget curl git xz-utils aria2
           echo "✓ Build tools installed"
 
       - name: "Free Disk Space"
@@ -964,8 +964,27 @@ jobs:
 
       - name: "Download OpenKylin ISO"
         run: |
-          wget -c --tries=3 --timeout=60 -O /tmp/openkylin.iso "${{ inputs.openkylin_iso }}"
+          ISO_NAME=$(basename "${{ inputs.openkylin_iso }}")
+          MIRRORS=(
+            "${{ inputs.openkylin_iso }}"
+            "https://mirrors.tuna.tsinghua.edu.cn/openkylin-cdimage/3.0/${ISO_NAME}"
+            "https://mirrors.ustc.edu.cn/openkylin-cdimage/3.0/${ISO_NAME}"
+            "https://mirrors.aliyun.com/openkylin-cdimage/3.0/${ISO_NAME}"
+          )
+          ok=0
+          for u in "${MIRRORS[@]}"; do
+            echo "== try $u"
+            rm -rf /tmp/dl && mkdir -p /tmp/dl
+            timeout 900 aria2c -x 8 -s 8 -k 1M --allow-overwrite=true --retry-wait=2 \
+              -d /tmp/dl -o openkylin.iso "$u" && ok=1 && break || echo "mirror failed: $u"
+          done
+          if [ "$ok" != "1" ]; then
+            echo "all mirrors failed, fallback to wget"
+            wget -c --tries=3 --timeout=60 -O /tmp/dl/openkylin.iso "${{ inputs.openkylin_iso }}" || exit 1
+          fi
+          mv /tmp/dl/openkylin.iso /tmp/openkylin.iso
           ls -lh /tmp/openkylin.iso
+          [ "$(stat -c%s /tmp/openkylin.iso)" -gt 1000000000 ] || { echo "ISO too small"; exit 1; }
           df -h /
 
       - name: "Extract OpenKylin squashfs"
