@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 版本状态
+VK_VERSION="V2.0-SP1"
+# 主板标识
+VK_BOARD="sheng"
+# 架构
+VK_ARCH="arm64"
+# 执行顺序
+VK_ORDER="order_sheng"
+
+# 执行任务
+VK_TASKS="rootfs,config,img_sheng"
+
+VK_UPDATE="n"
+VK_KEEP_IMAGE_DIR="y"
+
+# debootstrap 源
+VK_MIRROR="http://archive.build.openkylin.top/openkylin"
+VK_SUITE="nile"
+
+# sheng 设备参数
+VK_USERNAME="xiaomi"
+VK_PASSWORD="200322"
+VK_HOSTNAME="Mi-Pad-6SPro"

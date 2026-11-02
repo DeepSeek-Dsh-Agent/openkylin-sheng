@@ -1,0 +1,12 @@
+#!/bin/bash
+
+1-tools.sh
+2-net.sh
+
+# 3-ukui.sh
+openkylin-2.0-nile.sh
+# firefox.sh
+
+4-grub.sh
+5-kernel-x86_64.sh
+9-lash.sh

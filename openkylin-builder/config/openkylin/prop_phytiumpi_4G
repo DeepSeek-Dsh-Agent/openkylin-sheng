@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# 版本状态
+VK_VERSION="V2.0-SP1"
+# 主板标识
+VK_BOARD="phytiumpi-4G"
+# 架构
+VK_ARCH="arm64"
+# 执行顺序
+VK_ORDER="order_arm64"
+
+# 执行任务
+VK_TASKS="rootfs,config,img_phytiumpi"
+
+VK_UPDATE="y"
+VK_KEEP_IMAGE_DIR="n"
+
+# uboot file
+VK_UBOOT_FILE="fip-all-kylin-4GB-v3.0-250327.bin"
+
+# debootstrap 源
+#VK_MIRROR="http://archive-proxy.factory.openkylin.top/kif/archive/proxy/build/2346/archive.build.openkylin.top_openkylin"
+VK_MIRROR="http://archive.build.openkylin.top/openkylin"
+VK_SUITE="nile"

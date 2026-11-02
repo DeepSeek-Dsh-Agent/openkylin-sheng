@@ -1,0 +1,7 @@
+#!/bin/bash
+
+1-tools.sh
+2-net.sh
+openkylin-2.0-nile.sh
+4-sheng.sh
+9-lash.sh

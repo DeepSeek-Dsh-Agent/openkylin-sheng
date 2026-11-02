@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# 版本状态
+VK_VERSION="V2.0-SP1"
+
+# 架构
+VK_ARCH="amd64"
+# 执行顺序
+VK_ORDER="order_x86_64"
+
+# 执行任务
+VK_TASKS="rootfs,config,iso"
+
+VK_UPDATE="y"
+VK_KEEP_IMAGE_DIR="n"
+
+# debootstrap 源
+VK_MIRROR="http://archive.build.openkylin.top/openkylin"
+VK_SUITE="nile"

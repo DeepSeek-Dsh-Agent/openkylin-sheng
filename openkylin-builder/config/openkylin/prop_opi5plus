@@ -1,0 +1,17 @@
+# 版本状态
+VK_VERSION="V2.0-rc"
+# 主板标识
+VK_BOARD="opi5plus"
+# 架构
+VK_ARCH="arm64"
+# 执行顺序
+VK_ORDER="order_opi5plus"
+
+# 执行任务
+VK_TASKS="rootfs,config,img_opi5plus"
+
+VK_UPDATE="y"
+
+# debootstrap 源
+VK_MIRROR="http://archive-proxy.factory.openkylin.top/kif/archive/proxy/build/2331/archive.build.openkylin.top_openkylin"
+VK_SUITE="nile"

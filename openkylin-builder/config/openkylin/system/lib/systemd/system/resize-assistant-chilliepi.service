@@ -1,0 +1,12 @@
+[Unit]
+Description=Resize root filesystem to fit available disk space
+After=systemd-remount-fs.service lightdm.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=-/usr/sbin/resize-assistant
+ExecStartPost=/bin/systemctl disable resize-assistant.service
+
+[Install]
+WantedBy=basic.target
