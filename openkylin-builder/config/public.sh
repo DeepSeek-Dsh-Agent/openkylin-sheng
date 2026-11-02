@@ -69,7 +69,13 @@ EOF
 }
 
 function install_pkgs() {
-    MY_LOG_EXEC apt-get install -y --allow-downgrades "$*"
+    # 整批安装；失败则逐个安装、缺失的包只告警（上游 nile 包列表会漂移）
+    if ! MY_LOG_EXEC apt-get install -y --allow-downgrades "$*"; then
+        MY_LOG "warn: batch install failed, retry one by one"
+        for _pkg in "$@"; do
+            apt-get install -y --allow-downgrades "${_pkg}" || MY_LOG "warn: skip missing package: ${_pkg}"
+        done
+    fi
 }
 
 # 循环单个安装

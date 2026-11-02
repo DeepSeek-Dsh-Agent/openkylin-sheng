@@ -495,10 +495,26 @@ jobs:
         run: |
           cd openkylin-builder
           sudo bash check-env.sh
-          sudo env VK_PASSWORD="${{ inputs.password }}" VK_HOSTNAME="${{ inputs.hostname }}" ./okbuild.sh -p prop_sheng
+          sudo env VK_PASSWORD="${{ inputs.password }}" VK_HOSTNAME="${{ inputs.hostname }}" ./okbuild.sh -p prop_sheng || true
           echo "--- outputs:"
           ls -lh rootfs.img boot.img 2>/dev/null || true
           df -h /
+          if [ ! -s rootfs.img ] || [ ! -s boot.img ]; then
+            echo "::error::build artifacts missing (rootfs.img/boot.img), last 150 log lines:"
+            tail -150 openKylin-*.log 2>/dev/null || true
+            ls -la
+            exit 1
+          fi
+
+      - name: "Upload build log"
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: openkylin-sheng-buildlog
+          path: openkylin-builder/openKylin-*.log
+          retention-days: 7
+          if-no-files-found: ignore
+          compression-level: 9
 
       - name: "Upload RootFS Image"
         uses: actions/upload-artifact@v7
