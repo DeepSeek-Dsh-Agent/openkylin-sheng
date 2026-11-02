@@ -87,9 +87,12 @@ function install_pkgs_each() {
 
 # 结束，收尾
 function finish() {
-    # 禁止 kylin-virtual-keyboard, ukui-tablet-desktop.desktop 开机不启动
-    [ -f "/etc/xdg/autostart/kylin-virtual-keyboard.desktop" ] && mv -v /etc/xdg/autostart/kylin-virtual-keyboard.desktop{,.bak}
-    [ -f "/etc/xdg/autostart/ukui-tablet-desktop.desktop" ] && mv -v /etc/xdg/autostart/ukui-tablet-desktop.desktop{,.bak}
+    # 禁止 kylin-virtual-keyboard, ukui-tablet-desktop.desktop 开机启动
+    # sheng 是平板设备：需要屏幕虚拟键盘与 UKUI 平板桌面，保留这两个自启
+    if [ "${VK_BOARD}" != "sheng" ]; then
+        [ -f "/etc/xdg/autostart/kylin-virtual-keyboard.desktop" ] && mv -v /etc/xdg/autostart/kylin-virtual-keyboard.desktop{,.bak}
+        [ -f "/etc/xdg/autostart/ukui-tablet-desktop.desktop" ] && mv -v /etc/xdg/autostart/ukui-tablet-desktop.desktop{,.bak}
+    fi
 
     # 删除开始菜单图标
     rm -rf /usr/share/applications/vim.desktop
@@ -108,7 +111,7 @@ function finish() {
     rm -rf /usr/share/applications/org.kde.kdeconnect_open.desktop
     rm -rf /usr/share/applications/org.kde.kinfocenter.desktop
 
-    set_hostname openkylin
+    set_hostname "${VK_HOSTNAME:-openkylin}"
 
     if [ -f /lib/systemd/system/dnsmasq.service ]; then
         systemctl disable dnsmasq.service

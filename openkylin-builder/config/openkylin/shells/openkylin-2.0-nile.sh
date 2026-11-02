@@ -134,7 +134,6 @@ PKGS=(
     qt5-image-formats-plugins
     qttranslations5-l10n
     qtwayland5
-    r8168-dkms
     rsync
     rsyslog
     sensible-utils
@@ -176,7 +175,6 @@ PKGS=(
     kwin-wayland-backend-drm
     kwin-wayland-backend-wayland
     kwin-x11
-    kylin-calculator
     kylin-daq
     kylin-device-daemon
     kylin-driver-manager-service

@@ -3,7 +3,12 @@
 
 MY_LOG "---> sheng: install device debs"
 if ls /config/sheng-debs/*.deb >/dev/null 2>&1; then
-    dpkg -i /config/sheng-debs/*.deb || true
+    # 指纹包依赖 fprintd(>=1.94.5) / libgusb2(>=0.4.9)，nile 基座无 fprintd 且 libgusb2 仅 0.4.8，跳过
+    DEBS=$(find /config/sheng-debs -maxdepth 1 -name '*.deb' ! -name '*fingerprint*' | sort)
+    if [ -n "${DEBS}" ]; then
+        # shellcheck disable=SC2086
+        dpkg -i ${DEBS} || true
+    fi
     apt-get install -f -y || true
 else
     MY_LOG "---> sheng: no debs found, skip"
